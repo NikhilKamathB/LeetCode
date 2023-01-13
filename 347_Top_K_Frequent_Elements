@@ -1,0 +1,40 @@
+class Solution:
+
+    def topKFrequent(self, nums, k):
+        '''
+        # Solution 1
+        res = {}
+        for i in nums:
+            res[i] = 1 + res.get(i, 0)
+        res = dict(sorted(res.items(), key=lambda x : x[1], reverse=True))
+        return list(res.keys())[:k]
+        '''
+
+        '''
+        # Solution 2 - Using max heap
+        import heapq as hq
+        res = {}
+        for i in nums:
+            res[i] = 1 + res.get(i, 0)
+        res_list = [(v, k) for k, v in res.items()]
+        res = [i[1] for i in hq.nlargest(k, res_list)]
+        return res
+        '''
+        
+        # Solution 3 - Using the concept of bucket sort
+        res = {}
+        for i in nums:
+            res[i] = 1 + res.get(i, 0)
+        freq = [[] for _ in range(len(nums)+1)]
+        for key, value in res.items():
+            freq[value].append(key)
+        res = []
+        freq = freq[::-1]
+        ctr = 0
+        for i in freq:
+            if i :
+                res += i
+                ctr += 1
+            if k == ctr or len(list(set(res))) == k:
+                break
+        return list(set(res))
